@@ -2,27 +2,27 @@
 
 A responsive single-page application, written for the WiNK web application test, that searches the [Google Books API](https://developers.google.com/books/docs/v1/reference/volumes/list), paginates the results and shows the details of each book.
 
-**Stack:** React 19, TypeScript, Redux Toolkit (RTK Query), React Router, Bootstrap 5.3 themed with Sass, Vite. Tests with Vitest, Testing Library and Mock Service Worker.
+**Stack:** React 19, TypeScript, Redux Toolkit (RTK Query), React Router, Tailwind CSS 4 with DaisyUI 5, Vite. Tests with Vitest, Testing Library and Mock Service Worker.
 
 A PDF walkthrough of what the application does and why it is built this way is available in [English](docs/technical-documentation-en.pdf) and [Italian](docs/documentazione-tecnica-it.pdf).
 
 ## Requirements
 
-| Requirement                                                | Where and how                                                                                                 |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| SPA in React, responsive                                   | React 19 with React Router; Bootstrap grid and utilities, checked on phone and desktop widths                 |
-| Search the `volumes?q=` endpoint and show the results      | `src/services/googleBooksApi.ts` (RTK Query), `src/features/search`                                           |
-| Pagination through API parameters, dynamic number of pages | `startIndex` and `maxResults` are sent to the API; the number of pages comes from `totalItems`                |
-| Page size of 5, 10, 15 or 20                               | "Results per page" select; changing it goes back to page 1                                                    |
-| A paginator to change pages                                | `src/components/Paginator.tsx`, Bootstrap pagination with previous/next and a window of page numbers          |
-| Detail page with the book's information and its `infoLink` | `src/features/book`, route `/books/:bookId`; "View on Google Books" opens the `infoLink`                      |
-| Placeholder when there is no image                         | `https://placehold.co/400x600/FF5039/FFF?text=Book+Cover`, also used when an image fails to load              |
-| Description truncated to 2 lines with "..."                | `.text-clamp-2` in `src/styles/main.scss` (CSS line clamp)                                                    |
-| Live search, updated for every new character               | The results follow what is typed; requests wait for a 300 ms pause in the typing (see [Network](#network))    |
-| Latest Bootstrap, fully responsive                         | Bootstrap 5.3.9                                                                                               |
-| Nice to have: Sass theme, Redux Toolkit, TypeScript        | All three. The theme sets Bootstrap's primary colour to `#FF5039`, the colour of the placeholder in the brief |
+| Requirement                                                  | Where and how                                                                                              |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| SPA in React, responsive                                     | React 19 with React Router; Tailwind's responsive utilities, checked on phone and desktop widths           |
+| Search the `volumes?q=` endpoint and show the results        | `src/services/googleBooksApi.ts` (RTK Query), `src/features/search`                                        |
+| Pagination through API parameters, dynamic number of pages   | `startIndex` and `maxResults` are sent to the API; the number of pages comes from `totalItems`             |
+| Page size of 5, 10, 15 or 20                                 | "Results per page" select; changing it goes back to page 1                                                 |
+| A paginator to change pages                                  | `src/components/Paginator.tsx`, a DaisyUI button group with previous/next and a window of page numbers     |
+| Detail page with the book's information and its `infoLink`   | `src/features/book`, route `/books/:bookId`; "View on Google Books" opens the `infoLink`                   |
+| Placeholder when there is no image                           | `https://placehold.co/400x600/FF5039/FFF?text=Book+Cover`, also used when an image fails to load           |
+| Description truncated to 2 lines with "..."                  | Tailwind's `line-clamp-2` utility (CSS line clamp)                                                         |
+| Live search, updated for every new character                 | The results follow what is typed; requests wait for a 300 ms pause in the typing (see [Network](#network)) |
+| Fully responsive layout with a UI framework                  | Tailwind CSS 4.3 with DaisyUI 5.8, the alternative to Bootstrap suggested by the brief (see below)         |
+| Nice to have: TailwindCSS/DaisyUI, Redux Toolkit, TypeScript | All three. DaisyUI's theme uses `#FF5039`, the colour of the placeholder in the brief, as primary colour   |
 
-TailwindCSS/DaisyUI, the last nice-to-have, replaces Bootstrap, which the required list asks for, so I kept Bootstrap and customised it with Sass instead.
+The brief asks for the latest Bootstrap and, among the nice-to-have items, suggests TailwindCSS/DaisyUI instead of it, so the interface is built with Tailwind CSS and DaisyUI. The other styling nice-to-have, customising the theme colours with Sass, belongs to the Bootstrap route: Tailwind CSS 4 is not meant to be combined with Sass, so the theme colours are customised through DaisyUI's theme variables instead.
 
 ## Getting started
 
@@ -98,7 +98,7 @@ src/
   components/               layout, paginator, book cover, error alert, not-found page
   hooks/useDebouncedValue.ts
   lib/                      pure helpers: pagination window, covers and text, error messages
-  styles/main.scss          Bootstrap theme and the few custom styles
+  styles/main.css           Tailwind and DaisyUI setup, the theme and the few custom styles
   test/                     test setup, mock API (MSW) and fixtures
 docs/                       technical documentation (PDF, English and Italian)
 ```
