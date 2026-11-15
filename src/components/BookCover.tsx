@@ -31,7 +31,7 @@ export function BookCover({
       width={400}
       height={600}
       loading={size === 'thumbnail' ? 'lazy' : 'eager'}
-      className={`book-cover ${className}`.trim()}
+      className={`block aspect-[2/3] h-auto bg-base-300 object-cover ${className}`.trim()}
       onError={() => {
         setBrokenUrl(preferredUrl);
       }}

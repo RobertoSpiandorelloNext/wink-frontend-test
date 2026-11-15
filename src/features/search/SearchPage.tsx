@@ -30,7 +30,7 @@ export function SearchPage() {
   const renderResults = () => {
     if (query === '') {
       return (
-        <p className="text-body-secondary text-center py-5 mb-0">
+        <p className="py-16 text-center text-base-content/70">
           Start typing to search millions of books on Google Books.
         </p>
       );
@@ -38,10 +38,12 @@ export function SearchPage() {
     // Google's totals are estimates: a later page can come back empty, and a page far beyond
     // the results it really serves is refused with a 400.
     const endOfResults = (
-      <p className="text-center py-5 mb-0" role="status">
+      <output className="block py-16 text-center">
         There are no more results on this page.{' '}
-        <Link to={hrefForPage(1)}>Go to the first page</Link>
-      </p>
+        <Link to={hrefForPage(1)} className="link">
+          Go to the first page
+        </Link>
+      </output>
     );
 
     if (isError) {
@@ -66,20 +68,24 @@ export function SearchPage() {
       return page > 1 ? (
         endOfResults
       ) : (
-        <p className="text-center py-5 mb-0" role="status">
+        <output className="block py-16 text-center">
           No books found for <strong>{query}</strong>.
-        </p>
+        </output>
       );
     }
 
     const first = (page - 1) * pageSize + 1;
     const last = first + books.length - 1;
     return (
-      <div className={isFetching ? 'results is-stale' : 'results'} aria-busy={isFetching}>
-        <p className="text-body-secondary small mb-3" role="status">
+      // While the next page or search loads, the current results stay visible but dimmed.
+      <div
+        className={`transition-opacity motion-reduce:transition-none ${isFetching ? 'opacity-50' : ''}`}
+        aria-busy={isFetching}
+      >
+        <output className="mb-3 block text-sm text-base-content/70">
           Showing {numberFormat.format(first)} to {numberFormat.format(last)} of about{' '}
           {numberFormat.format(data.totalItems)} results
-        </p>
+        </output>
         <BookList books={books} />
         <Paginator
           page={page}
@@ -96,8 +102,8 @@ export function SearchPage() {
   return (
     <>
       <title>{query ? `${query} - Book Search` : 'Book Search'}</title>
-      <h1 className="visually-hidden">Search books</h1>
-      <div className="d-flex flex-column flex-md-row gap-3 align-items-md-center mb-4">
+      <h1 className="sr-only">Search books</h1>
+      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center">
         <SearchBar
           value={input}
           onChange={setInput}

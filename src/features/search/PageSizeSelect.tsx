@@ -12,13 +12,13 @@ export function PageSizeSelect({ value, onChange }: PageSizeSelectProps) {
   const selectId = useId();
 
   return (
-    <div className="d-flex align-items-center gap-2">
-      <label htmlFor={selectId} className="form-label mb-0 text-nowrap">
+    <div className="flex items-center gap-2">
+      <label htmlFor={selectId} className="whitespace-nowrap">
         Results per page
       </label>
       <select
         id={selectId}
-        className="form-select form-select-lg page-size-select"
+        className="select select-lg w-24"
         value={value}
         onChange={(event) => {
           const pageSize = Number(event.target.value);

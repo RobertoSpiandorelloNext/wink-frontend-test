@@ -36,49 +36,47 @@ export function BookDetails({ book }: { book: Volume }) {
   ];
 
   return (
-    <article className="row g-4">
+    <article className="grid gap-8 md:grid-cols-[16rem_1fr] lg:grid-cols-[18rem_1fr]">
       <title>{`${title} - Book Search`}</title>
-      <div className="col-12 col-md-4 col-lg-3">
-        <BookCover
-          imageLinks={info.imageLinks}
-          title={title}
-          size="large"
-          className="book-cover--large rounded shadow-sm"
-        />
-      </div>
+      <BookCover
+        imageLinks={info.imageLinks}
+        title={title}
+        size="large"
+        className="mx-auto w-full max-w-72 rounded-box shadow-md"
+      />
 
-      <div className="col-12 col-md-8 col-lg-9">
-        <h1 className="h2 mb-1">{title}</h1>
-        {info.subtitle && <p className="lead text-body-secondary mb-2">{info.subtitle}</p>}
-        <p className="mb-3">by {formatAuthors(info.authors)}</p>
+      <div className="min-w-0">
+        <h1 className="text-3xl font-bold">{title}</h1>
+        {info.subtitle && <p className="mt-1 text-xl text-base-content/70">{info.subtitle}</p>}
+        <p className="mt-2">by {formatAuthors(info.authors)}</p>
 
         {info.infoLink && (
           <a
             href={toHttps(info.infoLink)}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-primary mb-4"
+            className="btn btn-primary mt-4"
           >
             View on Google Books
           </a>
         )}
 
-        <dl className="row book-facts mb-4">
+        <dl className="mt-6 grid gap-x-6 gap-y-3 sm:grid-cols-2 xl:grid-cols-3">
           {facts
             .filter((fact): fact is [string, string] => Boolean(fact[1]))
             .map(([label, value]) => (
-              <div key={label} className="col-12 col-sm-6 col-xl-4">
-                <dt className="small text-body-secondary fw-normal">{label}</dt>
+              <div key={label}>
+                <dt className="text-sm text-base-content/70">{label}</dt>
                 <dd>{value}</dd>
               </div>
             ))}
         </dl>
 
-        <h2 className="h5">Description</h2>
+        <h2 className="mt-8 mb-2 text-lg font-semibold">Description</h2>
         {info.description ? (
           <BookDescription html={info.description} />
         ) : (
-          <p className="text-body-secondary">No description available.</p>
+          <p className="text-base-content/70">No description available.</p>
         )}
       </div>
     </article>

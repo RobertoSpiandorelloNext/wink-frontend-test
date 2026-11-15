@@ -1,6 +1,7 @@
+import { Fragment } from 'react';
 import { Link } from 'react-router';
 
-import { getPageWindow } from '../lib/pagination';
+import { getPageWindow, type PageItem } from '../lib/pagination';
 
 interface PaginatorProps {
   page: number;
@@ -11,17 +12,17 @@ interface PaginatorProps {
 }
 
 /**
- * Bootstrap pagination made of real links, so pages can be opened in a new tab and the browser's
- * back button walks through them. On small screens only the current page number is shown.
+ * Pagination made of real links, so pages can be opened in a new tab and the browser's back
+ * button walks through them. On small screens only the current page and the total are shown.
  */
 export function Paginator({ page, pageCount, hrefForPage, onPageIntent }: PaginatorProps) {
   if (pageCount <= 1) {
     return null;
   }
 
-  const linkTo = (target: number, label: string, ariaLabel?: string) => (
+  const linkTo = (target: number, label: string, ariaLabel: string, className = '') => (
     <Link
-      className="page-link"
+      className={`join-item btn ${className}`.trim()}
       to={hrefForPage(target)}
       aria-label={ariaLabel}
       onMouseEnter={() => onPageIntent?.(target)}
@@ -31,45 +32,42 @@ export function Paginator({ page, pageCount, hrefForPage, onPageIntent }: Pagina
     </Link>
   );
 
+  const disabled = (label: string) => (
+    <span className="join-item btn btn-disabled" aria-disabled="true">
+      {label}
+    </span>
+  );
+
+  const renderItem = (item: PageItem) => {
+    if (item === 'gap') {
+      return (
+        <span className="join-item btn btn-disabled hidden sm:inline-flex" aria-hidden="true">
+          ...
+        </span>
+      );
+    }
+    if (item === page) {
+      return (
+        <span className="join-item btn btn-primary" aria-current="page">
+          {item}
+        </span>
+      );
+    }
+    return linkTo(item, String(item), `Page ${item}`, 'hidden sm:inline-flex');
+  };
+
   return (
-    <nav aria-label="Search result pages">
-      <ul className="pagination justify-content-center flex-wrap mb-0">
-        <li className={`page-item ${page <= 1 ? 'disabled' : ''}`}>
-          {page <= 1 ? (
-            <span className="page-link">Previous</span>
-          ) : (
-            linkTo(page - 1, 'Previous', 'Previous page')
-          )}
-        </li>
-
-        {getPageWindow(page, pageCount).map((item, index) =>
-          item === 'gap' ? (
-            <li key={`gap-${index}`} className="page-item disabled d-none d-sm-block">
-              <span className="page-link">...</span>
-            </li>
-          ) : item === page ? (
-            <li key={item} className="page-item active" aria-current="page">
-              <span className="page-link">{item}</span>
-            </li>
-          ) : (
-            <li key={item} className="page-item d-none d-sm-block">
-              {linkTo(item, String(item), `Page ${item}`)}
-            </li>
-          ),
-        )}
+    <nav aria-label="Search result pages" className="flex justify-center">
+      <div className="join">
+        {page <= 1 ? disabled('Previous') : linkTo(page - 1, 'Previous', 'Previous page')}
+        {getPageWindow(page, pageCount).map((item, index) => (
+          // A gap can appear twice, so positions (not values) identify the items.
+          <Fragment key={item === 'gap' ? `gap-${index}` : item}>{renderItem(item)}</Fragment>
+        ))}
         {/* The other page numbers are hidden on small screens; this keeps the total visible. */}
-        <li className="page-item disabled d-sm-none">
-          <span className="page-link">of {pageCount}</span>
-        </li>
-
-        <li className={`page-item ${page >= pageCount ? 'disabled' : ''}`}>
-          {page >= pageCount ? (
-            <span className="page-link">Next</span>
-          ) : (
-            linkTo(page + 1, 'Next', 'Next page')
-          )}
-        </li>
-      </ul>
+        <span className="join-item btn btn-disabled sm:hidden">of {pageCount}</span>
+        {page >= pageCount ? disabled('Next') : linkTo(page + 1, 'Next', 'Next page')}
+      </div>
     </nav>
   );
 }

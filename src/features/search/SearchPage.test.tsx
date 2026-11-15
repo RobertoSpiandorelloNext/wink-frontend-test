@@ -87,7 +87,7 @@ describe('Search page', () => {
       if (!firstBook) throw new Error('No results');
       expect(within(firstBook).getByText('Author of dune-1')).toBeInTheDocument();
       expect(within(firstBook).getByText('(2001)')).toBeInTheDocument();
-      expect(within(firstBook).getByText('Description of dune-1.')).toHaveClass('text-clamp-2');
+      expect(within(firstBook).getByText('Description of dune-1.')).toHaveClass('line-clamp-2');
       expect(firstBook.querySelector('img')).toHaveAttribute(
         'src',
         'https://books.google.com/books/content?id=dune-1&zoom=1',

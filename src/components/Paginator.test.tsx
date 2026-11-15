@@ -47,27 +47,26 @@ describe('Paginator', () => {
   it('marks the current page and does not link to it', () => {
     renderPaginator(3, 5);
 
-    const current = screen.getByText('3').closest('li');
-    expect(current).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByText('3')).toHaveAttribute('aria-current', 'page');
     expect(screen.queryByRole('link', { name: 'Page 3' })).not.toBeInTheDocument();
   });
 
   it('keeps the total visible for small screens, where the other numbers are hidden', () => {
     renderPaginator(3, 49);
 
-    expect(screen.getByText('of 49').closest('li')).toHaveClass('d-sm-none');
-    expect(screen.getByRole('link', { name: 'Page 4' }).closest('li')).toHaveClass('d-none');
+    expect(screen.getByText('of 49')).toHaveClass('sm:hidden');
+    expect(screen.getByRole('link', { name: 'Page 4' })).toHaveClass('hidden', 'sm:inline-flex');
   });
 
   it('disables "Previous" on the first page and "Next" on the last', () => {
     const { unmount } = renderPaginator(1, 5);
     expect(screen.queryByRole('link', { name: 'Previous page' })).not.toBeInTheDocument();
-    expect(screen.getByText('Previous').closest('li')).toHaveClass('disabled');
+    expect(screen.getByText('Previous')).toHaveAttribute('aria-disabled', 'true');
     unmount();
 
     renderPaginator(5, 5);
     expect(screen.queryByRole('link', { name: 'Next page' })).not.toBeInTheDocument();
-    expect(screen.getByText('Next').closest('li')).toHaveClass('disabled');
+    expect(screen.getByText('Next')).toHaveAttribute('aria-disabled', 'true');
   });
 
   it('reports the page a user is about to open', async () => {

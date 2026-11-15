@@ -14,11 +14,7 @@ export function BookDetailPage() {
 
   const renderContent = () => {
     if (isError && isNotFound(error)) {
-      return (
-        <p className="py-5 text-center" role="status">
-          This book could not be found.
-        </p>
-      );
+      return <output className="block py-16 text-center">This book could not be found.</output>;
     }
     if (isError) {
       return (
@@ -32,10 +28,11 @@ export function BookDetailPage() {
     }
     if (!book) {
       return (
-        <div className="d-flex justify-content-center py-5">
-          <span className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading the book</span>
-          </span>
+        <div className="flex justify-center py-16">
+          <output
+            className="loading loading-spinner loading-lg text-primary"
+            aria-label="Loading the book"
+          />
         </div>
       );
     }
@@ -44,7 +41,7 @@ export function BookDetailPage() {
 
   return (
     <>
-      <Link to={getReturnPath(location.state)} className="d-inline-block mb-4">
+      <Link to={getReturnPath(location.state)} className="link mb-6 inline-block">
         Back to results
       </Link>
       {renderContent()}

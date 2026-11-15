@@ -11,5 +11,10 @@ export function BookDescription({ html }: { html: string }) {
     [html],
   );
 
-  return <div className="book-description" dangerouslySetInnerHTML={{ __html: safeHtml }} />;
+  return (
+    <div
+      className="book-description max-w-3xl leading-relaxed"
+      dangerouslySetInnerHTML={{ __html: safeHtml }}
+    />
+  );
 }

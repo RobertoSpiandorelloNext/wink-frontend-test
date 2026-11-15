@@ -10,31 +10,31 @@ export function BookListItem({ book }: { book: Volume }) {
   const year = getPublicationYear(publishedDate);
 
   return (
-    <li className="card book-row">
-      <div className="card-body d-flex gap-3">
+    <li className="card relative bg-base-100 shadow-sm transition hover:-translate-y-px hover:shadow-md focus-within:ring-2 focus-within:ring-primary motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+      <div className="card-body flex-row gap-4 p-4 sm:p-5">
         <BookCover
           imageLinks={book.volumeInfo.imageLinks}
           title={title}
           decorative
-          className="book-cover--thumb rounded"
+          className="w-18 shrink-0 rounded sm:w-22"
         />
         <div className="min-w-0">
-          <h2 className="h5 mb-1">
-            {/* The whole card is clickable; the search is kept so "Back" returns to it. */}
+          <h2 className="mb-1 text-lg font-semibold">
+            {/* The link covers the whole card; the search is kept so "Back" returns to it. */}
             <Link
               to={`/books/${encodeURIComponent(book.id)}`}
               state={{ from: location.search }}
-              className="stretched-link text-decoration-none"
+              className="text-primary-ink outline-none after:absolute after:inset-0 hover:underline"
             >
               {title}
             </Link>
           </h2>
-          {subtitle && <p className="text-body-secondary small mb-1">{subtitle}</p>}
-          <p className="small mb-2">
+          {subtitle && <p className="mb-1 text-sm text-base-content/70">{subtitle}</p>}
+          <p className="mb-2 text-sm">
             {formatAuthors(authors)}
-            {year && <span className="text-body-secondary"> ({year})</span>}
+            {year && <span className="text-base-content/70"> ({year})</span>}
           </p>
-          <p className="text-clamp-2 text-body-secondary mb-0">
+          <p className="line-clamp-2 text-base-content/70">
             {description ? toPlainText(description) : 'No description available.'}
           </p>
         </div>

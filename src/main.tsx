@@ -7,7 +7,7 @@ import { RouterProvider } from 'react-router/dom';
 
 import { makeStore } from './app/store';
 import { routes } from './routes';
-import './styles/main.scss';
+import './styles/main.css';
 
 const store = makeStore();
 // Lets RTK Query refetch the visible data when the connection comes back.

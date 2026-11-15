@@ -3,7 +3,7 @@ import { BookListItem } from './BookListItem';
 
 export function BookList({ books }: { books: readonly Volume[] }) {
   return (
-    <ul className="list-unstyled d-grid gap-3 mb-4">
+    <ul className="mb-6 grid gap-3">
       {books.map((book) => (
         <BookListItem key={book.id} book={book} />
       ))}
