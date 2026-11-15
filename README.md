@@ -4,6 +4,8 @@ A responsive single-page application, written for the WiNK web application test,
 
 **Stack:** React 19, TypeScript, Redux Toolkit (RTK Query), React Router, Tailwind CSS 4 with DaisyUI 5, Vite. Tests with Vitest, Testing Library and Mock Service Worker.
 
+**Live application:** [c9mfqj-5173.csb.app](https://c9mfqj-5173.csb.app/), running on CodeSandbox ([sandbox with the code](https://codesandbox.io/p/devbox/brave-resonance-c9mfqj)). After a while without visits the sandbox goes to sleep, so the first load can take a few seconds.
+
 A PDF walkthrough of what the application does and why it is built this way is available in [English](docs/technical-documentation-en.pdf) and [Italian](docs/documentazione-tecnica-it.pdf).
 
 ## Requirements
