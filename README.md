@@ -43,7 +43,9 @@ Without a key, Google serves every caller from one shared anonymous quota, which
 
 ### CodeSandbox
 
-Import the repository from GitHub (`https://codesandbox.io/p/github/<owner>/<repo>`). `.codesandbox/tasks.json` installs the dependencies and starts the dev server on port 5173, and `vite.config.ts` allows the `*.csb.app` preview host. Add `VITE_GOOGLE_BOOKS_API_KEY` to the sandbox's environment variables and restart the dev server.
+The application runs in a CodeSandbox VM Sandbox created from the GitHub repository: open `https://githubbox.com/<owner>/<repo>`, or choose "Import template" in the dashboard's import dialog and paste the repository URL. `.devcontainer/devcontainer.json` selects Node.js 22, `.codesandbox/tasks.json` installs the dependencies and starts the dev server on port 5173, and `vite.config.ts` allows the `*.csb.app` preview host.
+
+The sandbox created this way follows the repository and cannot be edited. To use an API key, fork it into your workspace, add `VITE_GOOGLE_BOOKS_API_KEY` under Menu > Env variables and restart the VM.
 
 ## How it works
 

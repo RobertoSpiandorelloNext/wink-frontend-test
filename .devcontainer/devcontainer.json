@@ -1,0 +1,4 @@
+{
+  "name": "Book Search",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22"
+}
