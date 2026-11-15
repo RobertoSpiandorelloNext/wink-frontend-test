@@ -4,6 +4,8 @@ A responsive single-page application, written for the WiNK web application test,
 
 **Stack:** React 19, TypeScript, Redux Toolkit (RTK Query), React Router, Bootstrap 5.3 themed with Sass, Vite. Tests with Vitest, Testing Library and Mock Service Worker.
 
+A PDF walkthrough of what the application does and why it is built this way is available in [English](docs/technical-documentation-en.pdf) and [Italian](docs/documentazione-tecnica-it.pdf).
+
 ## Requirements
 
 | Requirement                                                | Where and how                                                                                                 |
@@ -98,6 +100,7 @@ src/
   lib/                      pure helpers: pagination window, covers and text, error messages
   styles/main.scss          Bootstrap theme and the few custom styles
   test/                     test setup, mock API (MSW) and fixtures
+docs/                       technical documentation (PDF, English and Italian)
 ```
 
 Components stay small and presentational where possible; the logic that can be tested without a browser (pagination window, URL parsing, cover selection, error messages) lives in plain functions.
