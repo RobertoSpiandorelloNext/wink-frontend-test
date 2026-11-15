@@ -165,6 +165,46 @@ describe('Search page', () => {
         '/?q=dun',
       );
     });
+
+    // Google answers like this past the results it really serves.
+    it('treats a later page reported with no results as the end, not as "no books found"', async () => {
+      server.use(http.get(API, () => HttpResponse.json({ totalItems: 0 }), { once: true }));
+      renderApp('/?q=dune&page=40');
+
+      expect(await screen.findByText(/no more results on this page/)).toBeInTheDocument();
+      expect(screen.queryByText(/No books found/)).not.toBeInTheDocument();
+    });
+
+    it('treats a far page that Google refuses as the end, not as an error', async () => {
+      server.use(
+        http.get(
+          API,
+          () =>
+            HttpResponse.json(
+              { error: { code: 400, message: 'Invalid, missing, or incompatible parameters' } },
+              { status: 400 },
+            ),
+          { once: true },
+        ),
+      );
+      renderApp('/?q=dune&page=200');
+
+      expect(await screen.findByText(/no more results on this page/)).toBeInTheDocument();
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    });
+
+    it('only offers the pages Google really serves', async () => {
+      server.use(
+        http.get(API, () =>
+          HttpResponse.json({ totalItems: 6500, items: catalogs.dune?.slice(0, 10) }),
+        ),
+      );
+      renderApp('/?q=dune');
+
+      expect(await summary()).toHaveTextContent('of about 6,500 results');
+      expect(screen.getByRole('link', { name: 'Page 100' })).toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'Page 650' })).not.toBeInTheDocument();
+    });
   });
 
   describe('network', () => {

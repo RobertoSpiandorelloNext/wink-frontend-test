@@ -13,6 +13,12 @@ describe('getPageCount', () => {
   ])('%i items in pages of %i make %i pages', (total, size, pages) => {
     expect(getPageCount(total, size)).toBe(pages);
   });
+
+  it('only counts the results Google really serves', () => {
+    expect(getPageCount(6500, 20)).toBe(50);
+    expect(getPageCount(6500, 5)).toBe(200);
+    expect(getPageCount(1217, 10)).toBe(100);
+  });
 });
 
 describe('getPageWindow', () => {

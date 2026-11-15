@@ -66,7 +66,9 @@ All requests go through one RTK Query API (`src/services/googleBooksApi.ts`):
 
 ### Pagination
 
-A page is requested with `startIndex = (page - 1) * pageSize` and `maxResults = pageSize`, and the number of pages is `ceil(totalItems / pageSize)`. Google's `totalItems` is an estimate that can shrink on later pages, so a page near the end can come back empty: the app says so and links to the first page instead of showing an empty list. Out-of-range values in the URL (page 0, a page size of 7) fall back to the defaults.
+A page is requested with `startIndex = (page - 1) * pageSize` and `maxResults = pageSize`, and the number of pages is `ceil(totalItems / pageSize)`.
+
+Two quirks of the real API shape this. `totalItems` is an estimate that changes from one page to the next (a search for "dune" reported 512 results on its first page and 1,217 on its third), and Google only serves roughly the first thousand results: past that, pages come back empty, with `totalItems: 0`, or are refused with a 400. The paginator therefore offers at most the first 1,000 results, and a later page that comes back empty or refused shows a short message with a link to the first page instead of an error or a misleading "no books found". Out-of-range values in the URL (page 0, a page size of 7) fall back to the defaults.
 
 On small screens the paginator shows only previous, the current page, the total and next, so it always fits on one line.
 

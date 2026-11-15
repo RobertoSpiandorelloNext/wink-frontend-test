@@ -1,7 +1,13 @@
 export type PageItem = number | 'gap';
 
+/**
+ * Google Books reports totals in the thousands but only serves roughly the first thousand results:
+ * further pages come back empty, or as a 400 error. The paginator does not offer them.
+ */
+export const MAX_REACHABLE_RESULTS = 1000;
+
 export function getPageCount(totalItems: number, pageSize: number): number {
-  return Math.ceil(totalItems / pageSize);
+  return Math.ceil(Math.min(totalItems, MAX_REACHABLE_RESULTS) / pageSize);
 }
 
 /**

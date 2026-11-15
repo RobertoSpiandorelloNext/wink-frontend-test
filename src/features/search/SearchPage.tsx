@@ -35,7 +35,19 @@ export function SearchPage() {
         </p>
       );
     }
+    // Google's totals are estimates: a later page can come back empty, and a page far beyond
+    // the results it really serves is refused with a 400.
+    const endOfResults = (
+      <p className="text-center py-5 mb-0" role="status">
+        There are no more results on this page.{' '}
+        <Link to={hrefForPage(1)}>Go to the first page</Link>
+      </p>
+    );
+
     if (isError) {
+      if (page > 1 && 'status' in error && error.status === 400) {
+        return endOfResults;
+      }
       return (
         <ErrorAlert
           message={describeError(error)}
@@ -50,19 +62,12 @@ export function SearchPage() {
     }
 
     const books = data.items ?? [];
-    if (data.totalItems === 0) {
-      return (
+    if (books.length === 0) {
+      return page > 1 ? (
+        endOfResults
+      ) : (
         <p className="text-center py-5 mb-0" role="status">
           No books found for <strong>{query}</strong>.
-        </p>
-      );
-    }
-    if (books.length === 0) {
-      // Google's total is an estimate: pages near the end can turn out to be empty.
-      return (
-        <p className="text-center py-5 mb-0" role="status">
-          There are no more results on this page.{' '}
-          <Link to={hrefForPage(1)}>Go to the first page</Link>
         </p>
       );
     }
